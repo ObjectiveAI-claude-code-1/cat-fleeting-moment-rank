@@ -1,0 +1,111 @@
+{
+  "type": "vector.function",
+  "output_length": {
+    "$starlark": "len(input)"
+  },
+  "input_split": {
+    "$starlark": "[[item] for item in input]"
+  },
+  "input_merge": {
+    "$starlark": "[item for sublist in input for item in sublist]"
+  },
+  "input_schema": {
+    "type": "array",
+    "description": "An array of cat photographs to be ranked by temporal specificity — the sense that each image captures a fleeting, unrepeatable instant in time.",
+    "minItems": 2,
+    "items": {
+      "type": "image",
+      "description": "A cat photograph to evaluate for temporal specificity. The function examines each image for action transience, expressive singularity, and temporal urgency."
+    }
+  },
+  "tasks": [
+    {
+      "type": "vector.completion",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "Show me a photograph of a cat whose body is caught in physical transit — frozen at the peak of a leap, the apex of a yawn, the instant of a pounce, the compression of a landing, or the slow collapse from wakefulness into sleep. I want to see a body between states, occupying a posture that is inherently unstable and cannot be held, only passed through. The more transient and unrepeatable the physical configuration, the better."
+            }
+          ]
+        }
+      ],
+      "responses": {
+        "$starlark": "[[image] for image in input]"
+      },
+      "output": {
+        "$starlark": "output[\"scores\"]"
+      }
+    },
+    {
+      "type": "vector.completion",
+      "messages": [
+        {
+          "role": "developer",
+          "content": [
+            {
+              "type": "text",
+              "text": "You are a specialist in reading the micro-expressions of cats. You understand that cats display fleeting emotional and sensory signals — a squint against sudden light, ears rotating at a half-heard sound, the midpoint of a slow blink, whiskers flattening during a sniff, or the wide-eyed stare of sudden alertness. You know how to distinguish a face caught in a specific psychological instant from one displaying a neutral, default expression."
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "Show me a cat photograph that captures a singular, fleeting micro-expression — a configuration of ears, eyes, whiskers, and posture that reveals something happening inside the cat at that exact fraction of a second, and that will vanish a heartbeat later. I want the photograph that feels like a portrait of a specific psychological instant, not a generic document of what the cat generally looks like."
+            }
+          ]
+        }
+      ],
+      "responses": {
+        "$starlark": "[[image] for image in input]"
+      },
+      "output": {
+        "$starlark": "output[\"scores\"]"
+      }
+    },
+    {
+      "type": "vector.completion",
+      "messages": [
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "I’m curating a collection of cat photographs and I need the ones that feel temporally urgent — where the entire scene radiates the feeling that a narrow window opened between the cat’s unpredictability and the camera’s timing, and was seized just before it closed. I want the photo where the light, the posture, the expression, and the environment all conspired for a split second to create something unrepeatable."
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "I understand — you want the photograph that feels the most like a one-time event. The one where if the shutter had clicked one moment earlier or later, the image would be entirely different. The one that sits on the edge of a story rather than in the middle of a stillness."
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "Exactly. Show me the one that almost didn’t get captured."
+            }
+          ]
+        }
+      ],
+      "responses": {
+        "$starlark": "[[image] for image in input]"
+      },
+      "output": {
+        "$starlark": "output[\"scores\"]"
+      }
+    }
+  ],
+  "description": "Ranks cat photographs by temporal specificity — whether each image captures a fleeting, unrepeatable instant. Evaluates action transience, expressive singularity, and temporal urgency to score how much the photograph would differ if taken one second earlier or later."
+}
